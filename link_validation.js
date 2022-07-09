@@ -1,4 +1,4 @@
-let testFolder = '../../build/';
+let testFolder = '../../../build/';
 const fs = require('fs');
 const got = require('got');
 const { JSDOM } = require("jsdom");
