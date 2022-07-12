@@ -8,7 +8,7 @@ function main() {
 
 main();
 
-function check(file) {
+function checkLinks(file) {
   const html = fs.readFileSync(file);
   const dom = new JSDOM(html);
   const { document } = dom.window;
@@ -33,7 +33,7 @@ function findFiles(folder) {
         findFiles(folder + file.name + "/");
       } else {
         if (file.name.endsWith('.html')) {
-          check(folder + file.name);
+          checkLinks(folder + file.name);
         }
       }
     });
