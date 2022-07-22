@@ -36,3 +36,13 @@ Eslint is configured with the eslint recommended, with plugin as only warning. T
 ## How to Run it on a Local Machine - For Developers 
 
 The command to run eslint is `npx eslint -c ./.eslintrc.js ../experiment` which is also added in the [package.json](https://github.com/virtual-labs/ph3-lab-mgmt/blob/master/package.json).
+
+## Fixing Issues using ESLINT
+Add the relevant issue is the .eslintrc.js file and run `npx eslint -c ./.eslintrc.js ../experiment --fix`. 
+For example:
+```
+"rules": {
+    "semi": [2, "always"]
+},
+```
+Then run the command `npx eslint -c ./.eslintrc.js ../experiment --fix` it will add semi-colon at end of those line where semi-colon is not present.
