@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{> meta }}
+		{{> commons }}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.6-b/css/style.min.css">
+		<link rel="stylesheet" href="{{this.cssModule}}">
+	</head>
+
+	<body> 
+		<div>
+			<div class="columns is-mobile is-centered is-vcentered">
+				<div class="column is-2">
+					<a href="http://vlab.co.in" class="navbar-brand">
+						<img src="{{this.assets_path}}/assets/images/vlabs-color-small-moe.jpg" alt="vlabs logo" class="vlabs-logo">
+					</a>
+				</div>
+				<div class="column is-8 has-text-centered">
+					<div class="title is-2">
+						{{{this.experiment_name}}}
+					</div>
+				</div>
+				<div class="column is-2">
+				</div>
+			</div>
+		</div>
+
+		{{!-- <div id="loader" class="loader">
+		</div> --}}
+
+		<div class="columns is-mobile is-centered is-flex">
+			<div class="column has-text-centered">
+				<div class="title">Validator</div>
+			</div>
+		</div>
+		<script type="module" src="{{this.jsModule}}"></script>
+	</body>
+</html>
