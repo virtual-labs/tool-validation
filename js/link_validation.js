@@ -1,8 +1,8 @@
-let testFolder = '../../../';
+let testFolder = '../../../build';
 const fs = require('fs');
-const got = require('got');
+// const got = require('got');
 const { JSDOM } = require("jsdom");
-const filename = '../../../links.log';
+const filename = '../../../build/links.log';
 
 function appendToFile(filename,data)
 {
