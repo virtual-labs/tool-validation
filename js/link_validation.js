@@ -22,12 +22,14 @@ function checkLinks(file) {
   const html = fs.readFileSync(file);
   const dom = new JSDOM(html);
   const { document } = dom.window;
+  const shortenedFile = file.replace(testFolder, '');
+
   const links = document.querySelectorAll('a');
   links.forEach(link => {
     const href = link.getAttribute('href');
     if (href !== null) {
       if (href.startsWith('http://')) {
-        appendToFile(filename, file + '     ' + href);
+        appendToFile(filename, shortenedFile + '     ' + href + '\n');
       }
     }
   });
