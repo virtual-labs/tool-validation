@@ -12,11 +12,11 @@ function appendToFile(filename,data)
   });
 }
 
-export function main() {
+function main() {
   findFiles(testFolder);
 }
 
-// main();
+main();
 
 function checkLinks(file) {
   const html = fs.readFileSync(file);
