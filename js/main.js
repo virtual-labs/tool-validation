@@ -1,5 +1,8 @@
 'use strict';
 
+import { main } from './link_validation.js';
+
+
 function display(text) {
     let logs = text.split('\n');
     let output = "";
@@ -17,3 +20,4 @@ async function getLog(file) {
 }
 
 await getLog("eslint.log");
+main();

@@ -1,12 +1,22 @@
-let testFolder = '../../../build/';
+let testFolder = '../../../';
 const fs = require('fs');
 const got = require('got');
 const { JSDOM } = require("jsdom");
-function main() {
+const filename = '../../../links.log';
+
+function appendToFile(filename,data)
+{
+  fs.appendFile(filename, data, function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+  });
+}
+
+export function main() {
   findFiles(testFolder);
 }
 
-main();
+// main();
 
 function checkLinks(file) {
   const html = fs.readFileSync(file);
@@ -17,7 +27,7 @@ function checkLinks(file) {
     const href = link.getAttribute('href');
     if (href !== null) {
       if (href.startsWith('http://')) {
-        console.log(file, href);
+        appendToFile(filename, file + '     ' + href);
       }
     }
   });
