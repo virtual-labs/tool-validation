@@ -1,8 +1,8 @@
-let testFolder = '../../../build/';
+let testFolder = process.argv[2];
 const fs = require('fs');
 // const got = require('got');
 const { JSDOM } = require("jsdom");
-const filename = '../../../links.log';
+const filename = testFolder + 'links.log';
 
 function appendToFile(filename,data)
 {
