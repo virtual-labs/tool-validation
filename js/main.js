@@ -42,8 +42,9 @@ function handleDataEslint(data) {
         {
             if(logs[i].length > 0)
             {
-                formatted_data[logs[i]] = [];
-                last_key = logs[i];
+                const filename = logs[i].split('/')[logs[i].split('/').length-1];
+                formatted_data[filename] = [];
+                last_key = filename;
                 flag = true;
             }
         }
