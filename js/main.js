@@ -349,3 +349,4 @@ window.toggleError = toggleError;
 
 await getLog("eslint.log", "eslint");
 await getLog("links.log", "https");
+await getLog("validate.log", "descriptor");
