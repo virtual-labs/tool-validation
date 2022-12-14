@@ -49,6 +49,11 @@
 					HTTPS
 				</label>
 
+				<label for="checkbox-descriptor" class="v-checkbox">
+					<input type="checkbox" id="checkbox-descriptor" class="v-checkbox-input" checked onclick="toggleDescriptor()">
+					Descriptor
+				</label>
+
 				<div class="panel-label">
 					Severity
 				</div>
@@ -85,6 +90,16 @@
 					<i class="fa fa-chevron-down"></i>
 				</div>
 				<div id="output-https" class="card-content">
+				</div>
+			</div>
+			<div id="descriptor" class="card">
+				<div class="card-title">
+					Experiment Descriptor
+				</div>
+				<div id="https-collapse-icon" class="collapse-icon" onclick="collapseDescriptor()">
+					<i class="fa fa-chevron-down"></i>
+				</div>
+				<div id="output-descriptor" class="card-content">
 				</div>
 			</div>
 		</div>
