@@ -22,7 +22,46 @@ async function getLog(file, type) {
   } else if (type === "descriptor") {
     output = generateTabs(handleDataDescriptor(y), type);
     document.getElementById("output-descriptor").innerHTML = output;
+  } else if (type === "assesment") {
+    output = generateTabs(handleAssesment(y), type);
+    document.getElementById("output-assesment").innerHTML = output;
   }
+}
+
+function handleAssesment(data){
+  let logs = data.split("\n");
+  let formatted_data = {};
+  let currentKey = "";
+  let totalFiles = 0;
+  let count = 0;
+  for (let i=0;i<logs.length;i++){
+    if(logs[i].startsWith("=")){
+      totalFiles++;
+      // key is everything after =
+      const key = logs[i].split("=")[1];
+      if(key in formatted_data){
+        continue;
+      }
+      else{
+        formatted_data[key] = [];
+      }
+      currentKey = key;
+      // skip next 10 lines
+      i+=10;
+    }
+    else if(logs[i] === "Validated true"){
+      formatted_data[currentKey].push("Validated true"); 
+    }
+    // else if logs[i] is not empty
+    else if(logs[i].length > 0){
+      count++;
+      formatted_data[currentKey].push(logs[i]);
+    }
+  }
+  let stats = `Total Files: ${totalFiles} <br>
+  ✖ ${count} problems (0 errors, ${count} warnings)`;
+  formatted_data["FINAL_STATS"] = stats;
+  return formatted_data;
 }
 
 function handleDataEslint(data) {
@@ -200,6 +239,11 @@ function generateHeaders(type) {
                 <th style="width: 15%;">Severity</th>
                 <th>Message</th>`;
   }
+  else if (type === "assesment") {
+    headers = `<th style="width: 10%;">Index</th>
+                <th style="width: 15%;">Severity</th>
+                <th>Message</th>`;
+  }
   let head = `<thead><tr>${headers}</tr></thead>`;
   return head;
 }
@@ -242,6 +286,12 @@ function generateRow(data, type) {
     split_data.push(`<div class="status-chip background-warning">warning</div>`);
     split_data.push(data.split(":")[1]);
   }
+  else if (type === "assesment") {
+    split_data = []
+    split_data.push(data.split(":")[0]);
+    split_data.push(`<div class="status-chip background-warning">warning</div>`);
+    split_data.push(data.split(":")[1]);
+  }
 
   for (let i = 0; i < split_data.length; i++) {
     row += `<td class="table-cell">${split_data[i]}</td>`;
@@ -279,6 +329,16 @@ window.toggleDescriptor = () => {
   }
 };
 
+window.toggleAssesment = () => {
+  const assesment = document.getElementById("assesment");
+  const checkbox = document.getElementById("checkbox-assesment");
+  if (checkbox.checked) {
+    assesment.style.display = "inline-block";
+  } else {
+    assesment.style.display = "none";
+  }
+};
+
 function collapseEslint() {
   const eslint = document.getElementById("eslint");
   const checkboxes = eslint.querySelectorAll(".cb");
@@ -298,6 +358,14 @@ function collapseHttps() {
 function collapseDescriptor() {
   const descriptor = document.getElementById("descriptor");
   const checkboxes = descriptor.querySelectorAll(".cb");
+  for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  }
+}
+
+function collapseAssesment() {
+  const assesment = document.getElementById("assesment");
+  const checkboxes = assesment.querySelectorAll(".cb");
   for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].checked = false;
   }
@@ -337,11 +405,13 @@ function collapseAll() {
   collapseEslint();
   collapseHttps();
   collapseDescriptor();
+  collapseAssesment();
 }
 
 window.collapseEslint = collapseEslint;
 window.collapseHttps = collapseHttps;
 window.collapseDescriptor = collapseDescriptor;
+window.collapseAssesment = collapseAssesment;
 window.collapseAll = collapseAll;
 
 window.toggleWarning = toggleWarning;
@@ -349,4 +419,5 @@ window.toggleError = toggleError;
 
 await getLog("eslint.log", "eslint");
 await getLog("links.log", "https");
+await getLog("assesment.log", "assesment");
 await getLog("validate.log", "descriptor");
