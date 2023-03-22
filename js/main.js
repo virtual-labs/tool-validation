@@ -29,7 +29,9 @@ async function getLog(file, type) {
 }
 
 function handleAssesment(data){
+  console.log(data)
   let logs = data.split("\n");
+  console.log(logs)
   let formatted_data = {};
   let currentKey = "";
   let totalFiles = 0;
@@ -50,7 +52,8 @@ function handleAssesment(data){
       i+=10;
     }
     else if(logs[i] === "Validated true"){
-      formatted_data[currentKey].push("Validated true"); 
+      continue;
+      // formatted_data[currentKey].push("Validated true"); 
     }
     // else if logs[i] is not empty
     else if(logs[i].length > 0){
@@ -61,6 +64,7 @@ function handleAssesment(data){
   let stats = `Total Files: ${totalFiles} <br>
   ✖ ${count} problems (0 errors, ${count} warnings)`;
   formatted_data["FINAL_STATS"] = stats;
+  console.log(formatted_data)
   return formatted_data;
 }
 
@@ -230,16 +234,11 @@ function generateHeaders(type) {
         <th style="width: 10%;">Severity</th>
         <th style="width: 60%; margin-right: 5%;">Message</th>
         <th style="width: 15%;">Rule</th>`;
-  } else if (type === "https") {
+  } else if (type === "https" || type === "assesment") {
     headers = `<th style="width: 15%;">Severity</th>
                 <th>Link</th>`;
   }
   else if (type === "descriptor") {
-    headers = `<th style="width: 10%;">Index</th>
-                <th style="width: 15%;">Severity</th>
-                <th>Message</th>`;
-  }
-  else if (type === "assesment") {
     headers = `<th style="width: 10%;">Index</th>
                 <th style="width: 15%;">Severity</th>
                 <th>Message</th>`;
@@ -272,7 +271,7 @@ function generateRow(data, type) {
 
     // message
     split_data[2] = `<div class="eslint-message">${split_data[2]}</div>`;
-  } else if (type === "https") {
+  } else if (type === "https" || type === "assesment") {
     split_data.unshift(
       `<div class="status-chip background-warning">warning</div>`
     );
@@ -281,12 +280,6 @@ function generateRow(data, type) {
     split_data[1] = `<div class="https-link">${split_data[1]}</div>`;
   }
   else if (type === "descriptor") {
-    split_data = []
-    split_data.push(data.split(":")[0]);
-    split_data.push(`<div class="status-chip background-warning">warning</div>`);
-    split_data.push(data.split(":")[1]);
-  }
-  else if (type === "assesment") {
     split_data = []
     split_data.push(data.split(":")[0]);
     split_data.push(`<div class="status-chip background-warning">warning</div>`);
