@@ -49,7 +49,7 @@ function handleAssesment(data){
       }
       currentKey = key;
       // skip next 10 lines
-      i+=10;
+      i+=13;
     }
     else if(logs[i] === "Validated true"){
       continue;
