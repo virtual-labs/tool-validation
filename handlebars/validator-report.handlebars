@@ -54,6 +54,11 @@
 					Descriptor
 				</label>
 
+				<label for="checkbox-code-assessment" class="v-checkbox">
+					<input type="checkbox" id="checkbox-code-assessment" class="v-checkbox-input" checked onclick="toggleCodeAssessment()">
+					Code Assessment
+				</label>
+
 				<label for="checkbox-assesment" class="v-checkbox">
 					<input type="checkbox" id="checkbox-assesment" class="v-checkbox-input" checked onclick="toggleAssesment()">
 					Assesment
@@ -106,6 +111,16 @@
 					<i class="fa fa-chevron-down"></i>
 				</div>
 				<div id="output-descriptor" class="card-content">
+				</div>
+			</div>
+			<div id="code-assessment" class="card">
+				<div class="card-title">
+					Code Assessment Task
+				</div>
+				<div id="https-collapse-icon" class="collapse-icon" onclick="collapseCodeAssessment()">
+					<i class="fa fa-chevron-down"></i>
+				</div>
+				<div id="output-code-assessment" class="card-content">
 				</div>
 			</div>
 			<div id="assesment" class="card">
