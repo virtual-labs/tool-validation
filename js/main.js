@@ -22,13 +22,16 @@ async function getLog(file, type) {
   } else if (type === "descriptor") {
     output = generateTabs(handleDataDescriptor(y), type);
     document.getElementById("output-descriptor").innerHTML = output;
-  } else if (type === "assessment") {
-    output = generateTabs(handleAssessment(y), type);
-    document.getElementById("output-assessment").innerHTML = output;
+  } else if (type === "assesment") {
+    output = generateTabs(handleAssesment(y), type);
+    document.getElementById("output-assesment").innerHTML = output;
+  } else if(type === "code-assessment") {
+    output = generateTabs(handleDataDescriptor(y), type);
+    document.getElementById("output-code-assessment").innerHTML = output;
   }
 }
 
-function handleAssessment(data){
+function handleAssesment(data){
   let logs = data.split("\n");
   let formatted_data = {};
   let currentKey = "";
@@ -138,8 +141,10 @@ function handleDataDescriptor(data) {
   logs = logs.slice(6, logs.length - 2);
   let formatted_data = {};
   let count = 0;
+  // console.log(logs)
   for (let i = 0; i < logs.length; i++) {
     // check if line starts with /
+    console.log(logs[i])
     if (logs[i].startsWith("/")) {
       count++;
       // get filename
@@ -240,11 +245,11 @@ function generateHeaders(type) {
         <th style="width: 10%;">Severity</th>
         <th style="width: 60%; margin-right: 5%;">Message</th>
         <th style="width: 15%;">Rule</th>`;
-  } else if (type === "https" || type === "assessment") {
+  } else if (type === "https" || type === "assesment") {
     headers = `<th style="width: 15%;">Severity</th>
                 <th>Link</th>`;
   }
-  else if (type === "descriptor") {
+  else if (type === "descriptor" || type === "code-assessment") {
     headers = `<th style="width: 10%;">Index</th>
                 <th style="width: 15%;">Severity</th>
                 <th>Message</th>`;
@@ -277,7 +282,7 @@ function generateRow(data, type) {
 
     // message
     split_data[2] = `<div class="eslint-message">${split_data[2]}</div>`;
-  } else if (type === "https" || type === "assessment") {
+  } else if (type === "https" || type === "assesment") {
     split_data.unshift(
       `<div class="status-chip background-warning">warning</div>`
     );
@@ -285,7 +290,7 @@ function generateRow(data, type) {
     // link
     split_data[1] = `<div class="https-link">${split_data[1]}</div>`;
   }
-  else if (type === "descriptor") {
+  else if (type === "descriptor" || type === "code-assessment") {
     split_data = []
     split_data.push(data.split(":")[0]);
     split_data.push(`<div class="status-chip background-warning">warning</div>`);
@@ -328,13 +333,23 @@ window.toggleDescriptor = () => {
   }
 };
 
-window.toggleAssessment = () => {
-  const assessment = document.getElementById("assessment");
-  const checkbox = document.getElementById("checkbox-assessment");
+window.toggleCodeAssessment = () => {
+  const descriptor = document.getElementById("code-assessment");
+  const checkbox = document.getElementById("checkbox-code-assessment");
   if (checkbox.checked) {
-    assessment.style.display = "inline-block";
+    descriptor.style.display = "inline-block";
   } else {
-    assessment.style.display = "none";
+    descriptor.style.display = "none";
+  }
+};
+
+window.toggleAssesment = () => {
+  const assesment = document.getElementById("assesment");
+  const checkbox = document.getElementById("checkbox-assesment");
+  if (checkbox.checked) {
+    assesment.style.display = "inline-block";
+  } else {
+    assesment.style.display = "none";
   }
 };
 
@@ -361,10 +376,17 @@ function collapseDescriptor() {
     checkboxes[i].checked = false;
   }
 }
+function collapseCodeAssessment() {
+  const code_assessment = document.getElementById("code-assessment");
+  const checkboxes = code_assessment.querySelectorAll(".cb");
+  for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  }
+}
 
-function collapseAssessment() {
-  const assessment = document.getElementById("assessment");
-  const checkboxes = assessment.querySelectorAll(".cb");
+function collapseAssesment() {
+  const assesment = document.getElementById("assesment");
+  const checkboxes = assesment.querySelectorAll(".cb");
   for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].checked = false;
   }
@@ -404,19 +426,22 @@ function collapseAll() {
   collapseEslint();
   collapseHttps();
   collapseDescriptor();
-  collapseAssessment();
+  collapseAssesment();
+  collapseCodeAssessment();
 }
 
 window.collapseEslint = collapseEslint;
 window.collapseHttps = collapseHttps;
 window.collapseDescriptor = collapseDescriptor;
-window.collapseAssessment = collapseAssessment;
+window.collapseAssesment = collapseAssesment;
 window.collapseAll = collapseAll;
+window.collapseCodeAssessment = collapseCodeAssessment;
 
 window.toggleWarning = toggleWarning;
 window.toggleError = toggleError;
 
 await getLog("eslint.log", "eslint");
 await getLog("links.log", "https");
-await getLog("assesment.log", "assessment");
 await getLog("validate.log", "descriptor");
+await getLog("code-assessment.log", "code-assessment")
+await getLog("assesment.log", "assesment");
